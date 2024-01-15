@@ -4,12 +4,68 @@ import { validateCoin, generateDataset } from '../lib/dataset'
 import format from 'timeago-es/timeago-es'
 import { sendMessage } from '../socket'
 
-export const getDatasets = (req, res) => {
-	res.json('oh yeah!!!')
+export const getDatasets = async (req, res) => {
+	try {
+		let [ datasets ] = await getConnection().query('SELECT * FROM `datasets`')
+
+		datasets = datasets.map(({id, createdAt, name, description, coinId, firstDate,
+			endDate, data, predictData, validityData, dataset, status}) => ({
+			id,
+			createdAt: format(createdAt),
+			name,
+			description,
+			coinId,
+			firstDate,
+			endDate,
+			data: JSON.parse(data),
+			predictData: JSON.parse(predictData),
+			validityData,
+			dataset: dataset ? `/public/datasets/${dataset}` : '',
+			status
+		}))
+
+		res.json({
+			error: true,
+			data: datasets
+		})
+	} catch (err) {
+		console.error(err)
+		res.status(500).json({
+			error: true,
+			message: 'Ha ocurrido un error'
+		})
+	}
 }
 
-export const getDataset = (req, res) => {
-	res.json('oh yeah!!!')
+export const getDataset = async (req, res) => {
+	const { id } = req.params
+	
+	try {
+		const [ dataset ] = await getConnection().query('SELECT * FROM `datasets` WHERE `id` = ?', [id])
+
+		if (dataset.length === 0) {
+			return res.status(404).json({
+				error: true,
+				message: 'Id no encontrado'
+			})
+		}
+
+		dataset[0].createdAt = format(dataset[0].createdAt)
+		dataset[0].data = JSON.parse(dataset[0].data)
+		dataset[0].predictData = JSON.parse(dataset[0].predictData)
+		dataset[0].dataset = dataset[0].dataset ? `/public/datasets/${dataset[0].dataset}` : ''
+
+		res.json({
+			error: false,
+			data: dataset[0]
+		})
+	} catch (err) {
+		console.error(err)
+		res.status(500).json({
+			error: true,
+			message: 'Ha ocurrido un error'
+		})
+	}
 }
 
 export const createDataset = async (req, res) => {
@@ -79,7 +135,7 @@ export const createDataset = async (req, res) => {
 		}
 
 		const [ { insertId } ] = await getConnection().query('INSERT INTO `datasets` SET ?', [newDataset])
-		const [ [ datasetBD ] ] = await getConnection().query('SELECT `id`, `createdAt`, `name`, `description`, `coinId`, `firstDate`, `endDate`, `data`, `predictData`, `validityData`, `status` FROM `datasets` WHERE `id` = ?', [insertId])
+		const [ [ datasetBD ] ] = await getConnection().query('SELECT * FROM `datasets` WHERE `id` = ?', [insertId])
 		datasetBD.createdAt = format(datasetBD.createdAt)
 		datasetBD.data = JSON.parse(datasetBD.data)
 		datasetBD.predictData = JSON.parse(datasetBD.predictData)

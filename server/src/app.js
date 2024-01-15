@@ -1,6 +1,7 @@
 import express from 'express'
 import morgan from 'morgan'
 import cors from 'cors'
+import path from 'path'
 import { config } from './lib/config'
 import datasetRouter from './routes/dataset.routes'
 
@@ -19,5 +20,6 @@ app.use(express.json())
 app.use('/api/v1/datasets', datasetRouter)
 
 // Static files
+app.use('/public', express.static(path.join(__dirname, 'public')))
 
 export default app
