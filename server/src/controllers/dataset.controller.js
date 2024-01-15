@@ -40,6 +40,11 @@ export const createDataset = async (req, res) => {
 			error: true,
 			message: error.details[0].message
 		})
+	} else if (new Date(firstDate).getTime() > new Date(endDate).getTime()) {
+		return res.status(400).json({
+			error: true,
+			message: 'La fecha inicial no puede ser mayor a la fecha final'
+		})
 	}
 
 	try {
