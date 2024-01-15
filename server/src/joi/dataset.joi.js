@@ -24,3 +24,9 @@ export const schemaGenerateDataset = Joi.object({
 	predictData: Joi.array().items(Joi.string().pattern(new RegExp(`^(${variablesDataset.join('|')})$`))).min(1).max(variablesDataset.length).required(),
 	validityData: Joi.number().min(0).max(100).required()
 })
+
+export const schemaUpdate = Joi.object({
+	id: Joi.number().integer().min(1).max(9999999999).required(),
+	name: Joi.string().min(6).max(50).required(),
+	description: Joi.string().min(6).max(255).required()
+})

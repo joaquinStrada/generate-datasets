@@ -1,4 +1,4 @@
-import { schemaGenerateDataset } from '../joi/dataset.joi'
+import { schemaGenerateDataset, schemaUpdate } from '../joi/dataset.joi'
 import { getConnection } from '../lib/database'
 import { validateCoin, generateDataset } from '../lib/dataset'
 import format from 'timeago-es/timeago-es'
@@ -46,7 +46,7 @@ export const getDataset = async (req, res) => {
 		if (dataset.length === 0) {
 			return res.status(404).json({
 				error: true,
-				message: 'Id no encontrado'
+				message: 'Dataset no encontrado'
 			})
 		}
 
@@ -157,8 +157,68 @@ export const createDataset = async (req, res) => {
 	}
 }
 
-export const updateDataset = (req, res) => {
-	res.json('oh yeah!!!')
+export const updateDataset = async (req, res) => {
+	const { id } = req.params
+	const { name, description } = req.body
+
+	// Validamos que nos envien los datos
+	const { error } = schemaUpdate.validate({
+		id,
+		name,
+		description
+	})
+
+	if (error) {
+		return res.status(400).json({
+			error: true,
+			message: error.details[0].message
+		})
+	}
+
+	try {
+		// Validamos que el id exista
+		const [ [ validIdIsExist ] ] = await getConnection().query('SELECT COUNT(*) FROM `datasets` WHERE `id` = ?', [id])
+
+		if (validIdIsExist['COUNT(*)'] === 0) {
+			return res.status(400).json({
+				error: true,
+				message: 'Dataset no encontrado'
+			})
+		}
+
+		// Validamos que el nombre no exista en la BD
+		const [ validName ] = await getConnection().query('SELECT `id` FROM `datasets` WHERE `name` = ?', [name])
+
+		if (validName.length > 0 && validName[0].id !== parseInt(id)) {
+			return res.status(400).json({
+				error: true,
+				message: 'Ya existe otro dataset con el mismo nombre'
+			})
+		}
+
+		// Modificamos el dataset
+		await getConnection().query('UPDATE `datasets` SET `name` = ?, `description` = ? WHERE `id` = ?', [name, description, id])
+
+		// Notificamos a los usuarios de la modificacion
+		const [ [ datasetBD ] ] = await getConnection().query('SELECT * FROM `datasets` WHERE `id` = ?', [id])
+
+		datasetBD.createdAt = format(datasetBD.createdAt)
+		datasetBD.data = JSON.parse(datasetBD.data)
+		datasetBD.predictData = JSON.parse(datasetBD.predictData)
+		datasetBD.dataset = datasetBD.dataset ? `/public/datasets/${datasetBD.dataset}` : ''
+
+		sendMessage('update-dataset', datasetBD)
+		res.json({
+			error: false,
+			data: datasetBD
+		})
+	} catch (err) {
+		console.error(err)
+		res.status(500).json({
+			error: true,
+			message: 'Ha ocurrido un error'
+		})
+	}
 }
 
 export const deleteDataset = (req, res) => {
