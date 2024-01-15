@@ -221,6 +221,37 @@ export const updateDataset = async (req, res) => {
 	}
 }
 
-export const deleteDataset = (req, res) => {
-	res.json('oh yeah!!!')
+export const deleteDataset = async (req, res) => {
+	const { id } = req.params
+
+	try {
+		// Validamos si el id existe
+		const [ [ validIdIsExist ] ] = await getConnection().query('SELECT COUNT(*) FROM `datasets` WHERE `id` = ?', [id])
+
+		if (validIdIsExist['COUNT(*)'] === 0) {
+			return res.status(404).json({
+				error: true,
+				message: 'Dataset no encontrado'
+			})
+		}
+
+		// Eliminamos el dataset
+		await getConnection().query('DELETE FROM `datasets` WHERE `id` = ?', [id])
+
+		// Notificamos a los usuarios y respondemos a nuestro usuario
+		sendMessage('delete-dataset', {
+			datasetId: id
+		})
+
+		res.json({
+			error: false,
+			message: `Dataset N° ${id} eliminado satisfactoriamente`
+		})
+	} catch (err) {
+		console.error(err)
+		res.status(500).json({
+			error: true,
+			message: 'Ha ocurrido un error'
+		})
+	}
 }
