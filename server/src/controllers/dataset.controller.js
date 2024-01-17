@@ -1,8 +1,9 @@
 import { schemaGenerateDataset, schemaUpdate } from '../joi/dataset.joi'
 import { getConnection } from '../lib/database'
-import { validateCoin, generateDataset } from '../lib/dataset'
+import { validateCoin, generateDataset, datasetToExcel as generateExcel } from '../lib/dataset'
 import format from 'timeago-es/timeago-es'
 import { sendMessage } from '../socket'
+import fs from 'fs'
 
 export const getDatasets = async (req, res) => {
 	try {
@@ -246,6 +247,68 @@ export const deleteDataset = async (req, res) => {
 		res.json({
 			error: false,
 			message: `Dataset N° ${id} eliminado satisfactoriamente`
+		})
+	} catch (err) {
+		console.error(err)
+		res.status(500).json({
+			error: true,
+			message: 'Ha ocurrido un error'
+		})
+	}
+}
+
+export const datasetToExcel = async (req, res) => {
+	const { id } = req.params
+	
+	try {
+		// Validamos el dataset
+		const [ [ validDataset ] ] = await getConnection().query('SELECT COUNT(*), `dataset` FROM `datasets` WHERE `id` = ?', [id])
+		
+		if (validDataset['COUNT(*)'] === 0) {
+			return res.status(404).json({
+				error: true,
+				message: 'Dataset no encontrado'
+			})
+		} else if (!validDataset.dataset) {
+			return res.status(404).json({
+				error: true,
+				message: 'El dataset no se ha terminado generar'
+			})
+		}
+
+		// Generamos el excel
+		const pathExcel = await generateExcel(id)
+
+		// Descargamos el archivo
+		res.header('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+		res.header('accept-ranges', 'bytes')
+
+		const stream = fs.createReadStream(pathExcel)
+
+		stream.on('data', chunk => {
+			res.write(chunk)
+		})
+
+		stream.on('error', err => {
+			console.error(err)
+			res.status(500).json({
+				error: true,
+				message: 'Ha ocurrido un error'
+			})
+		})
+
+		stream.on('end', () => {
+			fs.unlink(pathExcel, err => {
+				if (err) {
+					console.error(err)
+					res.status(500).json({
+						error: true,
+						message: 'Ha ocurrido un error'
+					})
+				} else {
+					res.end()
+				}
+			})
 		})
 	} catch (err) {
 		console.error(err)

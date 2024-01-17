@@ -5,6 +5,7 @@ import { config } from './config'
 import fs from 'fs/promises'
 import path from 'path'
 import { v4 as uuid } from 'uuid'
+import Excel4Node from 'excel4node'
 
 export const validateCoin = async (coinId, firstDate, endDate) => {
 	const dateFirst = new Date(firstDate)
@@ -195,4 +196,147 @@ const extractData = (property, responses, index) => {
 	} else {
 		throw new Error('La propiedad no esta definida')
 	}
+}
+
+export const datasetToExcel = async datasetId => {
+	// Obtenemos el dataset
+	const [ [ datasetBD ] ] = await getConnection().query('SELECT `name`, `firstDate`, `data`, `predictData`, `validityData`, `dataset` FROM `datasets` WHERE `id` = ?', [datasetId])
+	
+	datasetBD.firstDate = new Date(datasetBD.firstDate).getTime()
+	datasetBD.data = JSON.parse(datasetBD.data)
+	datasetBD.predictData = JSON.parse(datasetBD.predictData)
+
+	// Obtenemos el json del dataset
+	const pathDataset = path.join(__dirname, '../public/datasets', datasetBD.dataset)
+	const fileDataset = await fs.readFile(pathDataset, 'utf8')
+	const jsonDataset = JSON.parse(fileDataset)
+
+	// Generamos el excel
+	const excel = new Excel4Node.Workbook()
+	const style = excel.createStyle({
+		font: {
+			color: '#000000',
+			fontSize: 12
+		}
+	})
+
+	// Generamos la hoja Data
+	const wsData = excel.addWorksheet('Data')
+
+	// Encabezados de la hoja data
+	wsData.cell(1, 1).string('Fecha').style(style)
+
+	for (let i = 0; i < datasetBD.data.length; i++) {
+		wsData.cell(1, i + 2)
+			.string(datasetBD.data[i])
+			.style(style)
+	}
+
+	// Datos de la hoja data
+	for (let row = 0; row < jsonDataset.data.length; row++) {
+		const dateDay = new Date(datasetBD.firstDate + (row * 24 * 60 * 60 * 1000))
+		wsData.cell(row + 2, 1)
+			.string(`${dateDay.getDate()}/${dateDay.getMonth() + 1}/${dateDay.getFullYear()}`)
+			.style(style)
+
+		for (let col = 0; col < jsonDataset.data[row].length; col++) {
+			wsData.cell(row + 2, col + 2)
+				.number(jsonDataset.data[row][col])
+				.style(style)
+		}
+	}
+
+	// Generamos la hoja predictData
+	const wsPredictData = excel.addWorksheet('predictData')
+
+	// Encabezados de la hoja predictData
+	wsPredictData.cell(1,1).string('Fecha').style(style)
+
+	for (let i = 0; i < datasetBD.predictData.length; i++) {
+		wsPredictData.cell(1, i + 2)
+			.string(datasetBD.predictData[i])
+			.style(style)
+	}
+
+	// Datos de la hoja predictData
+	for (let row = 0; row < jsonDataset.predictData.length; row++) {
+		const dateDay = new Date(datasetBD.firstDate + ((row + 1) * 24 * 60 * 60 * 1000))
+		wsPredictData.cell(row + 2, 1)
+			.string(`${dateDay.getDate()}/${dateDay.getMonth() + 1}/${dateDay.getFullYear()}`)
+			.style(style)
+
+		for (let col = 0; col < jsonDataset.predictData[row].length; col++) {
+			wsPredictData.cell(row + 2, col + 2)
+				.number(jsonDataset.predictData[row][col])
+				.style(style)
+		}
+	}
+
+	// Verificamos si tenemos validity data
+	if (datasetBD.validityData > 0) {
+		// Generamos la hoja validityData
+		const wsValidityData = excel.addWorksheet('validityData')
+
+		// Encabezados de la hoja validityData
+		wsValidityData.cell(1, 1).string('Fecha').style(style)
+
+		for (let i = 0; i < datasetBD.data.length; i++) {
+			wsValidityData.cell(1, i + 2)
+				.string(datasetBD.data[i])
+				.style(style)
+		}
+
+		// Datos de la hoja validityData
+		for (let row = 0; row < jsonDataset.validityData.length; row++) {
+			const dateDay = new Date(datasetBD.firstDate + (row * 24 * 60 * 60 * 1000))
+			wsValidityData.cell(row + 2, 1)
+				.string(`${dateDay.getDate()}/${dateDay.getMonth() + 1}/${dateDay.getFullYear()}`)
+				.style(style)
+
+			for (let col = 0; col < jsonDataset.validityData[row].length; col++) {
+				wsValidityData.cell(row + 2, col + 2)
+					.number(jsonDataset.validityData[row][col])
+					.style(style)
+			}
+		}
+
+		// Generamos la hoja validityPredictData
+		const wsValidityPredictData = excel.addWorksheet('validityPredictData')
+
+		// Encabezados de la hoja validityPredictData
+		wsValidityPredictData.cell(1, 1).string('Fecha').style(style)
+
+		for (let i = 0; i < datasetBD.predictData.length; i++) {
+			wsValidityPredictData.cell(1, i + 2)
+				.string(datasetBD.predictData[i])
+				.style(style)
+		}
+
+		// Datos de la hoja validityPredictData
+		for (let row = 0; row < jsonDataset.validityPredictData.length; row++) {
+			const dateDay = new Date(datasetBD.firstDate + ((row + 1) * 24 * 60 * 60 * 1000))
+			wsValidityPredictData.cell(row + 2, 1)
+				.string(`${dateDay.getDate()}/${dateDay.getMonth() + 1}/${dateDay.getFullYear()}`)
+				.style(style)
+
+			for (let col = 0; col < jsonDataset.validityPredictData[row].length; col++) {
+				wsValidityPredictData.cell(row + 2, col + 2)
+					.number(jsonDataset.validityPredictData[row][col])
+					.style(style)
+			}
+		}
+	}
+
+	// Guardamos el archivo excel
+	const pathExcel = path.join(__dirname, `../public/datasets/${datasetBD.name}.xlsx`)
+	
+	return new Promise((resolve, reject) => {
+		excel.write(pathExcel, err => {
+			if (err) {
+				reject(err)
+			} else {
+				resolve(pathExcel)
+			}
+		})
+	})
 }

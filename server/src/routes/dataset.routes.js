@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { getDatasets, getDataset, createDataset, updateDataset, deleteDataset } from '../controllers/dataset.controller'
+import { getDatasets, getDataset, createDataset, updateDataset, deleteDataset, datasetToExcel } from '../controllers/dataset.controller'
 
 const router = Router()
 
@@ -12,5 +12,7 @@ router.post('/', createDataset)
 router.put('/:id', updateDataset)
 
 router.delete('/:id', deleteDataset)
+
+router.get('/:id/excel', datasetToExcel)
 
 export default router
