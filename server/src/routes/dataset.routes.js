@@ -361,9 +361,8 @@ router.delete('/:id', deleteDataset)
  *              content:
  *                  application/vnd.openxmlformats-officedocument.spreadsheetml.sheet:
  *                      schema:
- *                          type: string
+ *                          type: binary
  *                          description: dataset en formato excel
- *                          format: binary
  *          404:
  *              description: Dataset no encontrado
  *              content:
