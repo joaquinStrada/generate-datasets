@@ -26,7 +26,7 @@ export const getDatasets = async (req, res) => {
 		}))
 
 		res.json({
-			error: true,
+			error: false,
 			data: datasets
 		})
 	} catch (err) {
@@ -181,7 +181,7 @@ export const updateDataset = async (req, res) => {
 		const [ [ validIdIsExist ] ] = await getConnection().query('SELECT COUNT(*) FROM `datasets` WHERE `id` = ?', [id])
 
 		if (validIdIsExist['COUNT(*)'] === 0) {
-			return res.status(400).json({
+			return res.status(404).json({
 				error: true,
 				message: 'Dataset no encontrado'
 			})

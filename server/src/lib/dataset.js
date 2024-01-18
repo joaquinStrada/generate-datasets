@@ -247,7 +247,7 @@ export const datasetToExcel = async datasetId => {
 	}
 
 	// Generamos la hoja predictData
-	const wsPredictData = excel.addWorksheet('predictData')
+	const wsPredictData = excel.addWorksheet('Predict Data')
 
 	// Encabezados de la hoja predictData
 	wsPredictData.cell(1,1).string('Fecha').style(style)
@@ -275,7 +275,7 @@ export const datasetToExcel = async datasetId => {
 	// Verificamos si tenemos validity data
 	if (datasetBD.validityData > 0) {
 		// Generamos la hoja validityData
-		const wsValidityData = excel.addWorksheet('validityData')
+		const wsValidityData = excel.addWorksheet('Validity Data')
 
 		// Encabezados de la hoja validityData
 		wsValidityData.cell(1, 1).string('Fecha').style(style)
@@ -301,7 +301,7 @@ export const datasetToExcel = async datasetId => {
 		}
 
 		// Generamos la hoja validityPredictData
-		const wsValidityPredictData = excel.addWorksheet('validityPredictData')
+		const wsValidityPredictData = excel.addWorksheet('Validity Predict Data')
 
 		// Encabezados de la hoja validityPredictData
 		wsValidityPredictData.cell(1, 1).string('Fecha').style(style)

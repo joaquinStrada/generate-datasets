@@ -4,6 +4,7 @@ dotenv()
 
 export const config = {
 	express: {
+		host: process.env.SERVER_HOST || `http://localhost:${process.env.PORT || 3000}`,
 		port: process.env.PORT || 3000
 	},
 	cors: {

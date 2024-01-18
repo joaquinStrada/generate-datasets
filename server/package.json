@@ -1,7 +1,7 @@
 {
-  "name": "server",
+  "name": "api_generar_datasets",
   "version": "1.0.0",
-  "description": "",
+  "description": "Esta es una api para generar datasets historicos diarios sobre criptomonedas",
   "main": "src/index.js",
   "scripts": {
     "start": "node dist/index.js",
@@ -12,7 +12,7 @@
     "eslint-fix": "eslint --fix ."
   },
   "keywords": [],
-  "author": "",
+  "author": "Joaquin Jose Strada",
   "license": "ISC",
   "dependencies": {
     "@babel/polyfill": "^7.12.1",
@@ -26,6 +26,8 @@
     "morgan": "^1.10.0",
     "mysql2": "^3.7.0",
     "socket.io": "^4.7.4",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.0",
     "timeago-es": "^0.2.0",
     "uuid": "^9.0.1"
   },
