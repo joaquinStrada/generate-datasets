@@ -22,7 +22,7 @@ const router = Router()
  *              name:
  *                  type: string
  *                  description: El nombre del dataset
- *                  expample: bitcoin
+ *                  example: bitcoin
  *              description:
  *                  type: string
  *                  description: La descripcion del dataset

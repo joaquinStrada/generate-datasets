@@ -1,0 +1,74 @@
+.app {
+    display: block;
+    width: 90%;
+    max-width: 500px;
+    background: #fff;
+    padding: var(--separacion);
+    margin: 40px auto;
+}
+
+.app .title {
+    display: block;
+    width: 100%;
+    text-align: center;
+    font-size: 58px;
+    margin-bottom: var(--separacion-elements);
+}
+
+.app .form-group {
+    display: block;
+    width: 100%;
+    margin-bottom: var(--separacion-elements);
+}
+
+.app .form-group .form-label {
+    display: block;
+    width: 100%;
+    padding-right: 5px;
+    margin-bottom: 10px;
+}
+
+.app .form-group .form-input {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    border: 1px solid rgba(0, 0, 0, .2);
+    border-radius: 4px;
+    transition: all ease 1S;
+    outline: none;
+}
+
+.app .form-group textarea.form-input {
+    display: block;
+    resize: vertical;
+    min-height: 52px;
+    max-height: 300px;
+}
+
+.app .form-group .form-input:focus {
+    border: 1px solid #0074D9;
+}
+
+.app .btn-submit {
+    display: block;
+    width: 100%;
+    background: #0074D9;
+    color: #fff;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    transition: all 1S ease;
+    cursor: pointer;
+}
+
+.app .btn-submit svg {
+    margin-right: 10px;
+}
+
+.app .btn-submit:hover {
+    background: rgba(0, 116, 277, .5);
+}
+
+.app .btn-submit:active {
+    transform: scale(.95);
+}

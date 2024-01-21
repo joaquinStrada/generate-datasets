@@ -1,0 +1,16 @@
+ :root {
+   --separacion: 30px;
+   --separacion-elements: 20px;
+ }
+ 
+ * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+ }
+
+ body {
+    background: #ccc;
+    color: #000;
+    font-size: 20px;
+ }

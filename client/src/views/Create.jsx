@@ -1,11 +1,51 @@
+/* eslint-disable react/react-in-jsx-scope */
+import SelectMoneda from '../components/SelectMoneda'
+import { faPlus } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import '../styles/create.css'
+
 const Create = () => {
-  return (
-    <>
-        <form>
-            
-        </form>
-    </>
-  )
+	return (
+		<>
+			<form className="app">
+				<h2 className="title">Crear Dataset</h2>
+				<div className="form-group">
+					<label className="form-label">Nombre:</label>
+					<input className="form-input" type="text" placeholder="Nombre"/>
+				</div>
+				<div className="form-group">
+					<label className="form-label">Descripcion:</label>
+					<textarea className="form-input" placeholder="Descripcion"></textarea>
+				</div>
+				<div className="form-group">
+					<label className="form-label">Moneda:</label>
+					<SelectMoneda className="form-input" />
+				</div>
+				<div className="form-group">
+					<label className="form-label">Fecha de inicio:</label>
+					<input className="form-input" type="date" />
+				</div>
+				<div className="form-group">
+					<label className="form-label">Fecha de Fin:</label>
+					<input className="form-input" type="date" />
+				</div>
+				<div className="form-group">
+					<label className="form-label">Datos:</label>
+				</div>
+				<div className="form-group">
+					<label className="form-label">Datos a predecir:</label>
+				</div>
+				<div className="form-group">
+					<label className="form-label">Datos de validacion:</label>
+				</div>
+
+				<button className="btn-submit" type="submit">
+					<FontAwesomeIcon icon={faPlus} />
+					Crear Dataset
+				</button>
+			</form>
+		</>
+	)
 }
 
 export default Create
