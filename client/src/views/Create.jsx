@@ -1,5 +1,6 @@
 /* eslint-disable react/react-in-jsx-scope */
 import SelectMoneda from '../components/SelectMoneda'
+import DataDataset from '../components/DataDataset'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import '../styles/create.css'
@@ -31,9 +32,11 @@ const Create = () => {
 				</div>
 				<div className="form-group">
 					<label className="form-label">Datos:</label>
+					<DataDataset />
 				</div>
 				<div className="form-group">
 					<label className="form-label">Datos a predecir:</label>
+					<DataDataset />
 				</div>
 				<div className="form-group">
 					<label className="form-label">Datos de validacion:</label>

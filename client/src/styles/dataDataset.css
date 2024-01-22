@@ -1,0 +1,49 @@
+.data-dataset {
+    display: block;
+    width: 100%;
+}
+
+.data-dataset tr {
+    border-bottom: 1px solid #000;
+}
+
+.data-dataset td {
+    width: 33.333%;
+    padding: 10px;
+    text-align: center;
+}
+
+.data-dataset td .check-property {
+    display: none;
+}
+
+.data-dataset td .label-poperty {
+    display: block;
+    width: 60px;
+    height: 40px;
+    background: #ccc;
+    border-radius: 20px;
+    position: relative;
+    transition: all 1S ease;
+    cursor: pointer;
+}
+
+.data-dataset td .label-poperty::after {
+    content: '';
+    display: block;
+    width: 25px;
+    height: 35px;
+    background: #fff;
+    border-radius: 50%;
+    position: absolute;
+    top: 2px;
+    left: 2px;
+}
+
+.data-dataset td .check-property:checked + .label-poperty {
+    background: #0074D9;
+}
+
+.data-dataset td .check-property:checked + .label-poperty::after {
+    left: 33px;
+}
