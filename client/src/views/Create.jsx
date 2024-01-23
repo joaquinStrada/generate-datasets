@@ -4,6 +4,7 @@ import DataDataset from '../components/DataDataset'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import '../styles/create.css'
+import InputValidityData from '../components/InputValidityData'
 
 const Create = () => {
 	return (
@@ -40,6 +41,7 @@ const Create = () => {
 				</div>
 				<div className="form-group">
 					<label className="form-label">Datos de validacion:</label>
+					<InputValidityData />
 				</div>
 
 				<button className="btn-submit" type="submit">

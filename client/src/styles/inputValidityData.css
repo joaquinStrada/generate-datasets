@@ -1,0 +1,44 @@
+.content-input {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.content-input .btn {
+    display: block;
+    width: 20%;
+    height: 44px;
+    background: #0074D9;
+    color: #fff;
+    font-size: 20px;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    transition: all 1S ease;
+}
+
+.content-input .input-validity {
+    display: block;
+    width: 60%;
+    height: 44px;
+    font-size: 20px;
+    line-height: 44px;
+    text-align: center;
+    padding: 10px;
+    border: none;
+    outline: none;
+}
+
+.content-input .btn-minus {
+    border-radius: 8px 0 0 8px;
+}
+
+.content-input .btn-plus {
+    border-radius: 0 8px 8px 0;
+}
+
+.content-input .btn:hover {
+    background: rgba(0, 116, 217, .5);
+}
