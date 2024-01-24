@@ -34,7 +34,7 @@
     padding: 10px;
     border: 1px solid rgba(0, 0, 0, .2);
     border-radius: 4px;
-    transition: all ease 1S;
+    transition: border ease 1S;
     outline: none;
 }
 

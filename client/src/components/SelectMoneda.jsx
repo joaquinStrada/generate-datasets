@@ -6,10 +6,10 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 import OptionMoneda from './OptionMoneda'
 
-const SelectMoneda = () => {
+const SelectMoneda = ({ value, onChange }) => {
 	const [ active, setActive ] = useState(false)
 	const [ coins, setCoins ] = useState([])
-	const [ selectCoin, setSelectCoin ] = useState(null)
+	const [ selectCoin, setSelectCoin ] = useState(value)
 	const [ search, setSearch ] = useState('')
 
 	const getData = async () => {
@@ -41,6 +41,7 @@ const SelectMoneda = () => {
 		e.preventDefault()
 		setSelectCoin(coinId)
 		setActive(false)
+		onChange(coinId)
 	} 
 
 	return (

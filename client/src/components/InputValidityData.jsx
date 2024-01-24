@@ -4,18 +4,20 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons'
 import '../styles/InputValidityData.css'
 
-const InputValidityData = () => {
-	const [ validityData, setValidityData ] = useState(0)
+const InputValidityData = ({ value, onChange }) => {
+	const [ validityData, setValidityData ] = useState(value)
 
 	const decrease = () => {
 		if (validityData > 0) {
 			setValidityData(validityData - 1)
+			onChange(validityData - 1)
 		}
 	}
 
 	const increase = () => {
 		if (validityData < 100) {
 			setValidityData(validityData + 1)
+			onChange(validityData + 1)
 		}
 	}
 
