@@ -68,7 +68,6 @@ export const generateDataset = async datasetId => {
 		dataset.data = JSON.parse(dataset.data)
 		dataset.predictData = JSON.parse(dataset.predictData)
 
-		console.log(dataset)
 		// Generamos el dataset
 		const responses = []
 		const diffDate = dataset.endDate - dataset.firstDate
@@ -160,11 +159,22 @@ export const generateDataset = async datasetId => {
 			status: 'generated'
 		})
 	} catch (err) {
-		console.error(err)
-		sendMessage('dataset', {
-			datasetId,
-			status: 'error'
-		})
+		if (err.response && err.response.status === 429) {
+			sendMessage('dataset', {
+				datasetId,
+				status: 'error',
+				message: 'Servidor sobrecargado, lo intentaremos de nuevo en un minuto'
+			})
+            
+			setTimeout(() => generateDataset(datasetId), 60000)
+		} else {
+			console.error(err)
+			sendMessage('dataset', {
+				datasetId,
+				status: 'error',
+				message: 'Ha ocurrido un error'
+			})
+		}
 	}
 }
 
