@@ -84,6 +84,10 @@ const Create = () => {
 			}
 		} catch (err) {
 			console.error(err)
+			
+			if (err.response && err.response.data && err.response.data.error) {
+				toastr.error(err.response.data.message, 'Error')
+			}
 		}
 	}
 
