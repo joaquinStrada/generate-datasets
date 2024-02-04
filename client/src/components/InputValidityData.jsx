@@ -1,23 +1,25 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable react/display-name */
 /* eslint-disable react/react-in-jsx-scope */
-import { useState } from 'react'
+import { useState, forwardRef } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons'
 import '../styles/InputValidityData.css'
 
-const InputValidityData = ({ value, onChange }) => {
-	const [ validityData, setValidityData ] = useState(value)
+const InputValidityData = forwardRef(({ valueData, onChangeData }, ref) => {
+	const [ validityData, setValidityData ] = useState(parseValidityData(valueData))
 
 	const decrease = () => {
 		if (validityData > 0) {
 			setValidityData(validityData - 1)
-			onChange(validityData - 1)
+			onChangeData(validityData - 1)
 		}
 	}
 
 	const increase = () => {
 		if (validityData < 100) {
 			setValidityData(validityData + 1)
-			onChange(validityData + 1)
+			onChangeData(validityData + 1)
 		}
 	}
 
@@ -30,7 +32,11 @@ const InputValidityData = ({ value, onChange }) => {
 			>
 				<FontAwesomeIcon icon={faMinus} />
 			</button>
-			<input className="input-validity" readOnly value={`${validityData}%`} />
+			<input 
+				className="input-validity" 
+				readOnly
+				ref={ref}
+			/>
 			<button 
 				type="button" 
 				className="btn btn-plus"
@@ -40,6 +46,8 @@ const InputValidityData = ({ value, onChange }) => {
 			</button>
 		</div>
 	)
-}
+})
+
+export const parseValidityData = data => parseInt(String(data).replace('%', ''))
 
 export default InputValidityData

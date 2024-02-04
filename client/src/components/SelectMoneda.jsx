@@ -1,15 +1,16 @@
+/* eslint-disable react/display-name */
 /* eslint-disable react/react-in-jsx-scope */
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAngleDown } from '@fortawesome/free-solid-svg-icons'
 import '../styles/selectMoneda.css'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, forwardRef } from 'react'
 import axios from 'axios'
 import OptionMoneda from './OptionMoneda'
 
-const SelectMoneda = ({ value, onChange }) => {
+const SelectMoneda = forwardRef(({ valueSelect, onChangeSelect }, ref) => {
 	const [ active, setActive ] = useState(false)
 	const [ coins, setCoins ] = useState([])
-	const [ selectCoin, setSelectCoin ] = useState(value)
+	const [ selectCoin, setSelectCoin ] = useState(valueSelect)
 	const [ search, setSearch ] = useState('')
 
 	const getData = async () => {
@@ -41,7 +42,7 @@ const SelectMoneda = ({ value, onChange }) => {
 		e.preventDefault()
 		setSelectCoin(coinId)
 		setActive(false)
-		onChange(coinId)
+		onChangeSelect(coinId)
 	} 
 
 	return (
@@ -75,8 +76,13 @@ const SelectMoneda = ({ value, onChange }) => {
 						))
 				}
 			</div>
+
+			<input
+				type="hidden"
+				ref={ref}
+			/>
 		</div>
 	)
-}
+})
 
 export default SelectMoneda
