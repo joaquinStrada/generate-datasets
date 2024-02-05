@@ -94,7 +94,6 @@ const Create = () => {
 
 		// Validamos el data y el predictData
 		if (body.data.length == 0) {
-			console.log(body.data)
 			setError('data', {
 				type: 'required',
 				message: 'Campo obligatorio'
@@ -102,7 +101,6 @@ const Create = () => {
 		}
 
 		if (body.predictData.length === 0) {
-			console.log(body.predictData)
 			setError('predictData', {
 				type: 'required',
 				message: 'Campo obligatorio'

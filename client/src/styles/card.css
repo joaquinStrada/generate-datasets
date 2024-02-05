@@ -1,0 +1,210 @@
+:root {
+    --width-info-controls: 200px;
+}
+
+/*-----------------------------------*/
+/* estilos del card */
+/*-----------------------------------*/
+.card {
+    display: block;
+    width: 100%;
+    background: #fff;
+    padding: var(--separacion);
+    border-radius: 4px;
+    margin-bottom: var(--separacion);
+}
+
+/*-----------------------------------*/
+/* estilos del info */
+/*-----------------------------------*/
+.card .info {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--separacion);
+}
+
+.card.generated .info {
+    margin-bottom: 0;
+}
+
+.card .info .img-card {
+    display: block;
+    width: calc(30% - 10px);
+    margin-right: 10px;
+}
+
+/*-----------------------------------*/
+/* estilos del info texts */
+/*-----------------------------------*/
+.card .info .info-texts {
+    display: block;
+    width: calc(70% - var(--width-info-controls));
+}
+
+.card .info .info-texts .card-title {
+    display: block;
+    width: 100%;
+    font-size: 40px;
+    text-align: center;
+    margin-bottom: var(--separacion-elements);
+}
+
+.card .info .info-texts .card-title .card-createdAt {
+    font-size: 20px;
+    font-weight: normal;
+    margin-left: 10px;
+}
+
+.card .info .info-texts .card-description {
+    display: block;
+    width: 100%;
+    font-size: 20px;
+    margin-bottom: var(--separacion-elements);
+}
+
+/*-----------------------------------*/
+/* estilos del info currency y info dataset */
+/*-----------------------------------*/
+.card .info .info-texts .info-currency,
+.card .info .info-texts .info-dataset {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card .info .info-texts .info-currency {
+    margin-top: var(--separacion-elements);
+}
+
+.card .info .info-texts .info-currency .caracteristic-currency,
+.card .info .info-texts .info-dataset .caracteristic-dataset {
+    display: block;
+    width: 33.333%;
+}
+
+.card .info .info-texts .info-currency .caracteristic-currency .title,
+.card .info .info-texts .info-dataset .caracteristic-dataset .title {
+    display: block;
+    width: 100%;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+.card .info .info-texts .info-currency .caracteristic-currency .value,
+.card .info .info-texts .info-dataset .caracteristic-dataset .value {
+    display: block;
+    width: 100%;
+    text-align: center;
+}
+
+.card .info .info-texts .info-currency .caracteristic-currency .value.red {
+    color: #F00;
+}
+
+.card .info .info-texts .info-currency .caracteristic-currency .value.green {
+    color: #0F0;
+}
+
+/*-----------------------------------*/
+/* estilos del info-controls */
+/*-----------------------------------*/
+.card .info .info-controls {
+    display: flex;
+    width: var(--width-info-controls);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.card .info .info-controls .btn {
+    display: block;
+    background: #ccc;
+    color: #fff;
+    padding: 10px;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: all .3S ease;
+    cursor: pointer;
+    margin-bottom: var(--separacion-elements);
+}
+
+.card .info .info-controls .btn:active {
+    transform: scale(.95);
+}
+
+.card .info .info-controls .btn-update {
+    background: #0074D9;
+}
+
+.card .info .info-controls .btn-update:hover {
+    background: rgba(0, 116, 217, .5);
+}
+
+.card .info .info-controls .btn-delete {
+    background: #F00;
+}
+
+.card .info .info-controls .btn-delete:hover {
+    background: rgba(255, 0, 0, .5);
+}
+
+.card .info .info-controls .btn-download {
+    background: #0F0;
+}
+
+.card .info .info-controls .btn-download:hover {
+    background: rgba(0, 255, 0, .5);
+}
+
+/*-----------------------------------*/
+/* estilos del status */
+/*-----------------------------------*/
+.card .status {
+    display: block;
+    width: 100%;
+}
+
+.card.generated .status {
+    display: none;
+}
+
+/*-----------------------------------*/
+/* estilos del status info */
+/*-----------------------------------*/
+.card .status .status-info {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--separacion-elements);
+}
+
+.card .status .status-info .status-text {
+    width: 33.333%;
+    text-align: center;
+}
+
+/*-----------------------------------*/
+/* estilos del status progress */
+/*-----------------------------------*/
+.card .status .progress {
+    display: block;
+    width: 100%;
+    height: 20px;
+    background: #ccc;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.card .status .progress-bar {
+    display: block;
+    height: 100%;
+    background: #0074D9;
+}
