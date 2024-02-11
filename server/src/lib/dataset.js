@@ -156,7 +156,8 @@ export const generateDataset = async datasetId => {
 		// Notificamos al usuario de que el dataset ha sido creado
 		sendMessage('dataset', {
 			datasetId,
-			status: 'generated'
+			status: 'generated',
+			pathDataset: `/public/datasets/${fileName}`
 		})
 	} catch (err) {
 		if (err.response && err.response.status === 429) {
