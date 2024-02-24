@@ -55,13 +55,13 @@ const Index = () => {
 		}
 	}
 
-	const createdDataset = dataset => {
-		const datasets = [...data, dataset]
+	const createdDataset = dataset => setData(state => {
+		const datasets = [...state, dataset]
 		getCoins(getIds(datasets))
-		setData(datasets)
-	}
+		return datasets
+	})
 
-	const deletedDataset = ({ datasetId }) => console.log(data)
+	const deletedDataset = ({ datasetId }) => setData(state => state.filter(dataset => dataset.id != datasetId))
 
 	useEffect(() => {
 		getData()
@@ -72,15 +72,15 @@ const Index = () => {
 
 		// Apagamos los mensajes del socket
 		return () => {
-			socket.off('created-dataset')
-			socket.off('delete-dataset')
+			socket.off('created-dataset', createdDataset)
+			socket.off('delete-dataset', deletedDataset)
 		}
 	}, [])
 
 	return (
 		<div className="container">
 			{
-				coins.length > 0 && data.map(dataset => (
+				coins.length > 0 && data && data.map(dataset => (
 					<Card 
 						dataset={dataset}
 						coin={coins.find(coin => coin.id === dataset.coinId)} 
