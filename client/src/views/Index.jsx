@@ -63,17 +63,25 @@ const Index = () => {
 
 	const deletedDataset = ({ datasetId }) => setData(state => state.filter(dataset => dataset.id != datasetId))
 
+	const updatedDataset = datasetDB => setData(state => {
+		const index = state.findIndex(dataset => dataset.id === datasetDB.id)
+		state[index] = datasetDB
+		return state
+	})
+
 	useEffect(() => {
 		getData()
 
 		// Escuchamos los mensajes del socket
 		socket.on('created-dataset', createdDataset)
 		socket.on('delete-dataset', deletedDataset)
+		socket.on('update-dataset', updatedDataset)
 
 		// Apagamos los mensajes del socket
 		return () => {
 			socket.off('created-dataset', createdDataset)
 			socket.off('delete-dataset', deletedDataset)
+			socket.off('update-dataset', updatedDataset)
 		}
 	}, [])
 

@@ -104,7 +104,7 @@ const Card = ({ dataset, coin }) => {
 				{
 					status == 'generated' && (
 						<div className="info-controls">
-							<NavLink className="btn btn-update" to={`/${dataset.id}`}>Actualizar</NavLink>
+							<NavLink className="btn btn-update" to={`/edit/${dataset.id}`}>Actualizar</NavLink>
 							<NavLink 
 								className="btn btn-delete" 
 								to="/"

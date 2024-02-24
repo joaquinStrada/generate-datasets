@@ -126,102 +126,100 @@ const Create = () => {
 	}
 
 	return (
-		<>
-			<form className="app" onSubmit={handleSubmit(onSubmit)}>
-				<h2 className="title">Crear Dataset</h2>
-				<div className="form-group">
-					<label className="form-label">Nombre:</label>
-					<input 
-						className="form-input" 
-						type="text" 
-						placeholder="Nombre"
-						{...register('name', {
-							required: formValidate.required,
-							minLength: formValidate.minLength(6),
-							maxLength: formValidate.maxLength(50)
-						})}
-					/>
-					<p className="form-error">{errors.name?.message}</p>
-				</div>
-				<div className="form-group">
-					<label className="form-label">Descripcion:</label>
-					<textarea 
-						className="form-input" 
-						placeholder="Descripcion"
-						{...register('description', {
-							required: formValidate.required,
-							minLength: formValidate.minLength(6),
-							maxLength: formValidate.maxLength(255)
-						})}
-					></textarea>
-					<p className="form-error">{errors.description?.message}</p>
-				</div>
-				<div className="form-group">
-					<label className="form-label">Moneda:</label>
-					<SelectMoneda 
-						className="form-input"
-						valueSelect={watch('coinId')}
-						onChangeSelect={value => setValue('coinId', value)}
-						{...register('coinId', {
-							required: formValidate.required,
-							minLength: formValidate.minLength(3),
-							maxLength: formValidate.maxLength(10)
-						})}
-					/>
-					<p className="form-error">{errors.coinId?.message}</p>
-				</div>
-				<div className="form-group">
-					<label className="form-label">Fecha de inicio:</label>
-					<input 
-						className="form-input" 
-						type="date"
-						{...register('firstDate', {
-							required: formValidate.required
-						})}
-					/>
-					<p className="form-error">{errors.firstDate?.message}</p>
-				</div>
-				<div className="form-group">
-					<label className="form-label">Fecha de Fin:</label>
-					<input 
-						className="form-input" 
-						type="date"
-						{...register('endDate', {
-							required: formValidate.required
-						})}
-					/>
-					<p className="form-error">{errors.endDate?.message}</p>
-				</div>
-				<div className="form-group">
-					<label className="form-label">Datos:</label>
-					<DataDataset onChange={handleData} />
-					<p className="form-error">{errors.data?.message}</p>
-				</div>
-				<div className="form-group">
-					<label className="form-label">Datos a predecir:</label>
-					<DataDataset onChange={handlePredictData} />
-					<p className="form-error">{errors.predictData?.message}</p>
-				</div>
-				<div className="form-group">
-					<label className="form-label">Datos de validacion:</label>
-					<InputValidityData 
-						valueData={watch('validityData')} 
-						onChangeData={validityData => setValue('validityData', `${validityData}%`)}
-						{...register('validityData', {
-							required: formValidate.required,
-							minLength: formValidate.minLength(2),
-							maxLength: formValidate.maxLength(4)
-						})}
-					/>
-					<p className="form-error">{errors.validityData?.message}</p>
-				</div>
+		<form className="app" onSubmit={handleSubmit(onSubmit)}>
+			<h2 className="title">Crear Dataset</h2>
+			<div className="form-group">
+				<label className="form-label">Nombre:</label>
+				<input 
+					className="form-input" 
+					type="text" 
+					placeholder="Nombre"
+					{...register('name', {
+						required: formValidate.required,
+						minLength: formValidate.minLength(6),
+						maxLength: formValidate.maxLength(50)
+					})}
+				/>
+				<p className="form-error">{errors.name?.message}</p>
+			</div>
+			<div className="form-group">
+				<label className="form-label">Descripcion:</label>
+				<textarea 
+					className="form-input" 
+					placeholder="Descripcion"
+					{...register('description', {
+						required: formValidate.required,
+						minLength: formValidate.minLength(6),
+						maxLength: formValidate.maxLength(255)
+					})}
+				></textarea>
+				<p className="form-error">{errors.description?.message}</p>
+			</div>
+			<div className="form-group">
+				<label className="form-label">Moneda:</label>
+				<SelectMoneda 
+					className="form-input"
+					valueSelect={watch('coinId')}
+					onChangeSelect={value => setValue('coinId', value)}
+					{...register('coinId', {
+						required: formValidate.required,
+						minLength: formValidate.minLength(3),
+						maxLength: formValidate.maxLength(10)
+					})}
+				/>
+				<p className="form-error">{errors.coinId?.message}</p>
+			</div>
+			<div className="form-group">
+				<label className="form-label">Fecha de inicio:</label>
+				<input 
+					className="form-input" 
+					type="date"
+					{...register('firstDate', {
+						required: formValidate.required
+					})}
+				/>
+				<p className="form-error">{errors.firstDate?.message}</p>
+			</div>
+			<div className="form-group">
+				<label className="form-label">Fecha de Fin:</label>
+				<input 
+					className="form-input" 
+					type="date"
+					{...register('endDate', {
+						required: formValidate.required
+					})}
+				/>
+				<p className="form-error">{errors.endDate?.message}</p>
+			</div>
+			<div className="form-group">
+				<label className="form-label">Datos:</label>
+				<DataDataset onChange={handleData} />
+				<p className="form-error">{errors.data?.message}</p>
+			</div>
+			<div className="form-group">
+				<label className="form-label">Datos a predecir:</label>
+				<DataDataset onChange={handlePredictData} />
+				<p className="form-error">{errors.predictData?.message}</p>
+			</div>
+			<div className="form-group">
+				<label className="form-label">Datos de validacion:</label>
+				<InputValidityData 
+					valueData={watch('validityData')} 
+					onChangeData={validityData => setValue('validityData', `${validityData}%`)}
+					{...register('validityData', {
+						required: formValidate.required,
+						minLength: formValidate.minLength(2),
+						maxLength: formValidate.maxLength(4)
+					})}
+				/>
+				<p className="form-error">{errors.validityData?.message}</p>
+			</div>
 
-				<button className="btn-submit" type="submit">
-					<FontAwesomeIcon icon={faPlus} />
-					Crear Dataset
-				</button>
-			</form>
-		</>
+			<button className="btn-submit" type="submit">
+				<FontAwesomeIcon icon={faPlus} />
+				Crear Dataset
+			</button>
+		</form>
 	)
 }
 
