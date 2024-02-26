@@ -15,7 +15,7 @@ const Index = () => {
 	const [ data, setData ] = useState([])
 	const [ coins, setCoins ] = useState([])
 
-	const getCoins = async (ids) => {
+	const getCoins = async ids => {
 		try {
 			const res = await axios.get('https://api.coingecko.com/api/v3/coins/markets', {
 				params: {
@@ -63,11 +63,8 @@ const Index = () => {
 
 	const deletedDataset = ({ datasetId }) => setData(state => state.filter(dataset => dataset.id != datasetId))
 
-	const updatedDataset = datasetDB => setData(state => {
-		const index = state.findIndex(dataset => dataset.id === datasetDB.id)
-		state[index] = datasetDB
-		return state
-	})
+	const updatedDataset = datasetBD => 
+		setData(state => state.map(dataset => dataset.id == datasetBD.id ? datasetBD : dataset))
 
 	useEffect(() => {
 		getData()
