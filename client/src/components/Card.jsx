@@ -7,6 +7,8 @@ import { getDate, getTime } from '../utils/getDateTime'
 import { config } from '../utils/config'
 import io from 'socket.io-client'
 import { Api } from '../utils/Api'
+import axios from 'axios'
+import fileDownload from 'js-file-download'
 import '../styles/card.css'
 
 const socket = io(config.api.host)
@@ -58,6 +60,26 @@ const Card = ({ dataset, coin }) => {
 			if (err.response?.data?.error) {
 				toastr.error(err.response.data.message, 'Error')
 			}
+		}
+	}
+
+	const handleDownload = async e => {
+		e.preventDefault()
+		
+		try {
+			const url = e.currentTarget.getAttribute('href')
+			const filename = e.currentTarget.getAttribute('download')
+
+			// Descargamos el archivo
+			const res = await axios.get(url, {
+				responseType: 'blob'
+			})
+
+			if (res.status === 200) {
+				fileDownload(res.data, filename)
+			}
+		} catch (err) {
+			console.error(err)
 		}
 	}
 
@@ -114,11 +136,13 @@ const Card = ({ dataset, coin }) => {
 								href={config.api.host + pathDataset} 
 								className="btn btn-download"
 								download={`${dataset.name}.json`}
+								onClick={handleDownload}
 							>Descargar Json</a>
 							<a
 								href={`${config.api.host}/api/v1/datasets/${dataset.id}/excel`} 
 								className="btn btn-download"
 								download={`${dataset.name}.xlsx`}
+								onClick={handleDownload}
 							>Descargar Excel</a>
 						</div>
 					)
