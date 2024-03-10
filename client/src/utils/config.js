@@ -1,5 +1,5 @@
 export const config = {
 	api: {
-		host: import.meta.env.API_HOST || 'http://localhost:3000'
+		host: import.meta.env.VITE_APP_API_HOST || '/'
 	}
 }

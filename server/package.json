@@ -4,12 +4,10 @@
   "description": "Esta es una api para generar datasets historicos diarios sobre criptomonedas",
   "main": "src/index.js",
   "scripts": {
-    "start": "node dist/index.js",
+    "start": "cross-env NODE_ENV=production node dist/index.js",
     "dev": "nodemon src/index.js --exec babel-node",
     "build": "babel src -d dist",
-    "clean": "rimraf dist",
-    "eslint": "eslint .",
-    "eslint-fix": "eslint --fix ."
+    "clean": "rimraf dist"
   },
   "keywords": [],
   "author": "Joaquin Jose Strada",
@@ -36,7 +34,6 @@
     "@babel/core": "^7.23.7",
     "@babel/node": "^7.22.19",
     "@babel/preset-env": "^7.23.8",
-    "eslint": "^8.56.0",
     "nodemon": "^3.0.2",
     "rimraf": "^5.0.5"
   }

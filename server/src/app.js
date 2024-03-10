@@ -29,5 +29,6 @@ app.use('/api', swaggerUI.serve, swaggerUI.setup(specs))
 
 // Static files
 app.use('/public', express.static(path.join(__dirname, 'public')))
+app.use(express.static(path.resolve('../client/dist')))
 
 export default app

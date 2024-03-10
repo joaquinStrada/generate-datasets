@@ -133,13 +133,13 @@ const Card = ({ dataset, coin }) => {
 								onClick={handleDelete}
 							>Eliminar</NavLink>
 							<a
-								href={config.api.host + pathDataset} 
+								href={config.api.host.slice(0, -1) + pathDataset} 
 								className="btn btn-download"
 								download={`${dataset.name}.json`}
 								onClick={handleDownload}
 							>Descargar Json</a>
 							<a
-								href={`${config.api.host}/api/v1/datasets/${dataset.id}/excel`} 
+								href={`${config.api.host}api/v1/datasets/${dataset.id}/excel`} 
 								className="btn btn-download"
 								download={`${dataset.name}.xlsx`}
 								onClick={handleDownload}

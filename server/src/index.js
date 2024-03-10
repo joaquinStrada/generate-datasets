@@ -10,9 +10,16 @@ import initializing from './lib/initializing'
 createConnection()
 initializing()
 const server = http.createServer(app)
-const io = new SocketServer(server, {
-	cors: config.cors
-})
+let io = null
+
+if (process.env.NODE_ENV === 'production') {
+	io = new SocketServer(server)	
+} else {
+	io = new SocketServer(server, {
+		cors: config.cors
+	})
+}
+
 socketServer(io)
 
 server.listen(app.get('port'), () => {

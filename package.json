@@ -1,0 +1,42 @@
+{
+  "name": "generate-datasets",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Esta es una app para generar datasets de criptomonedas",
+  "main": "server/dist/index.js",
+  "workspaces": [
+    "server",
+    "client"
+  ],
+  "scripts": {
+    "start": "npm start --workspace server",
+    "server": "npm run dev --workspace server",
+    "client": "npm run dev --workspace client",
+    "build:server": "npm run build --workspace server",
+    "build:client": "npm run build --workspace client",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joaquinStrada/generate-datasets.git"
+  },
+  "keywords": [
+    "criptomonedas",
+    "bitcoin",
+    "etherium",
+    "theter"
+  ],
+  "author": "Joaquin Jose Strada",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/joaquinStrada/generate-datasets/issues"
+  },
+  "homepage": "https://github.com/joaquinStrada/generate-datasets#readme",
+  "dependencies": {
+    "cross-env": "^7.0.3"
+  },
+  "devDependencies": {
+    "eslint": "^8.56.0"
+  }
+}
